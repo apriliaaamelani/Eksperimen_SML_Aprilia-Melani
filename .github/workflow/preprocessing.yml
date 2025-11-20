@@ -1,0 +1,39 @@
+name: Run Preprocessing Automate
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy scikit-learn joblib
+
+      - name: Create preprocessing output folder
+        run: mkdir -p preprocessing
+
+      - name: Run preprocessing script
+        run: |
+          python automate_Aprilia-Melani.py \
+            --input diabetes_raw/diabetes.csv \
+            --output preprocessing \
+            --target diabetes
+
+      - name: Upload preprocessing outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprocessing-results
+          path: preprocessing/
