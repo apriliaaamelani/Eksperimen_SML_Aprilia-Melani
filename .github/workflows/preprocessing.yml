@@ -27,7 +27,7 @@ jobs:
     - name: Run preprocessing script
       run: |
         python preprocessing/automate_Aprilia-Melani.py \
-          --input dataset/diabetes.csv \
+          --input diabetes_raw/diabetes.csv \
           --output preprocessing \
           --target diabetes
 
